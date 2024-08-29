@@ -8,7 +8,6 @@ import mlflow
 st.title("Cat vs. Dog Classifier")
 
 tracking_url = st.sidebar.text_input("Enter Tracking URI")
-model_name = st.sidebar.text_input("Enter Model Name")
 current_stage = st.sidebar.selectbox("Stage", ("None","Staging", "Production", "Archived"))
 uploaded_image = st.file_uploader("Upload an image...", type=["jpg", "png", "jpeg"])
 
@@ -16,7 +15,8 @@ uploaded_image = st.file_uploader("Upload an image...", type=["jpg", "png", "jpe
 mlflow.set_tracking_uri(tracking_url)  # Set the path to your MLflow tracking server
 
 # Load the PyTorch model from MLflow
-model_uri=f"models:/{model_name}/{current_stage}"
+MODEL_NAME = 'mercon'
+model_uri=f"models:/{MODEL_NAME}/{current_stage}"
 
 # Define data transformations for inference
 data_transform = transforms.Compose([
@@ -26,7 +26,7 @@ data_transform = transforms.Compose([
 ])
 
 # Define class labels
-class_labels = ['Cat', 'Dog', 'Car']
+class_labels = ['Cat', 'Dog']
 
 if uploaded_image is not None:
     st.image(uploaded_image, caption="Uploaded Image", use_column_width=True)
